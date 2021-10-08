@@ -2,7 +2,7 @@ import pytorch_lightning.loggers as loggers
 import matplotlib.pyplot as plt
 import wandb
 
-from framework.logging.log_entry import LogEntry, IMAGE_ENTRY, SCALARS_ENTRY, SCALAR_ENTRY, PLOT_ENTRY
+from framework.logging.log_entry import LogEntry, IMAGE_ENTRY, SCALARS_ENTRY, SCALAR_ENTRY, PLOT_ENTRY, TABLE_ENTRY
 
 
 class WandbLogger(loggers.WandbLogger):
@@ -19,6 +19,11 @@ class WandbLogger(loggers.WandbLogger):
             for sub_name, v in log_entry.value.items():
                 entry['%s/%s' % (name, sub_name)] = v
             self.experiment.log(entry, commit=False)
+        elif log_entry.data_type == TABLE_ENTRY:
+            for row in log_entry.value:
+                for sub_name, v in row.items():
+                    entry['%s/%s' % (name, sub_name)] = v
+                self.experiment.log(entry, commit=False)
         elif log_entry.data_type == IMAGE_ENTRY:
             entry[name] = wandb.Image(log_entry.value)
             self.experiment.log(data=entry, step=global_step, commit=False)

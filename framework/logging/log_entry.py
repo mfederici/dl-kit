@@ -2,6 +2,7 @@ SCALAR_ENTRY = 'scalar'
 SCALARS_ENTRY = 'scalars'
 IMAGE_ENTRY = 'image'
 PLOT_ENTRY = 'plot'
+TABLE_ENTRY = 'table'
 
 LOG_ENTRY_TYPES = []
 
